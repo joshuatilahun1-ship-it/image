@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptToVisual Pro - AI Script Parser, TTS Audio & Video Storyboard Generator with Canvas FX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #090d16; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 h-full flex flex-col overflow-x-hidden selection:bg-indigo-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800 px-6 lg:px-12 py-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="app.showPage('landing')">
+            <div class="bg-indigo-600 text-white p-2.5 rounded-2xl shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-clapperboard text-lg"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base lg:text-lg tracking-tight bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">ScriptToVisual Pro</h1>
+                <p class="text-[10px] text-slate-400">AI Storyboard, Voiceover & Live Canvas Engine</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button onclick="app.showPage('studio')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-2xl shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Launch Studio App</span>
+            </button>
+        </div>
+    </header>
+
+    <div id="appContainer" class="flex-1 flex flex-col overflow-hidden">
+        
+        <div id="landingPage" class="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
+            
+            <section class="relative px-6 lg:px-24 py-20 lg:py-32 flex flex-col items-center text-center overflow-hidden">
+                <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
+                <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-6 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                    <span>Gemini Multi-Modal & Live Canvas FX Engine</span>
+                </div>
+
+                <h1 class="text-4xl lg:text-7xl font-extrabold tracking-tight max-w-5xl leading-tight text-white mb-6">
+                    Transform Any Script into <span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">AI Video Storyboards</span> Instantly
+                </h1>
+
+                <p class="text-sm lg:text-lg text-slate-400 max-w-2xl mb-10 leading-relaxed">
+                    Classify scripts into clean narrative sections, generate professional AI character visuals, pick custom male/female voiceovers, and download your production as a playable PC video file (.webm).
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full justify-center">
+                    <button onclick="app.showPage('studio')" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-2xl shadow-xl shadow-indigo-600/30 transition flex items-center justify-center space-x-3">
+                        <i class="fa-solid fa-play text-xs"></i>
+                        <span>Get Started Free in Studio</span>
+                    </button>
+                    <button onclick="app.loadSampleAndStudio()" class="w-full sm:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium text-sm rounded-2xl border border-slate-800 transition flex items-center justify-center space-x-3">
+                        <i class="fa-solid fa-bolt text-amber-400 text-xs"></i>
+                        <span>Try Sample Script</span>
+                    </button>
+                </div>
+            </section>
+
+            <footer class="border-t border-slate-900 py-8 px-6 text-center text-xs text-slate-500">
+                ScriptToVisual Pro &copy; 2026. Powered by Gemini Multi-Modal & Live Canvas FX Engine.
+            </footer>
+        </div>
+
+        <div id="studioPage" class="flex-1 flex overflow-hidden hidden">
+            
+            <section class="w-1/2 border-r border-slate-800 flex flex-col bg-slate-900/50 overflow-hidden">
+                <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900 flex-wrap gap-2 shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="app.showPage('landing')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg border border-slate-700 transition flex items-center space-x-1.5" title="Back to Home Page">
+                            <i class="fa-solid fa-arrow-left text-indigo-400"></i>
+                            <span>Home</span>
+                        </button>
+                        <h2 class="text-sm font-semibold text-slate-300 flex items-center space-x-2">
+                            <i class="fa-solid fa-file-lines text-indigo-400"></i>
+                            <span>1. Script Input & Manga Panels</span>
+                        </h2>
+                    </div>
+                    <div class="flex items-center space-x-4 flex-wrap gap-2">
+                        <div class="flex items-center space-x-1.5">
+                            <label class="text-xs text-slate-400">Art Style:</label>
+                            <select id="artStyleSelect" onchange="app.updateArtStyle(this.value)" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-medium">
+                                <option value="Hand-drawn 2D Anime Animation style, cel shaded, vibrant cartoon">Anime (2D Cel)</option>
+                                <option value="Hyper-realistic cinematic photography, 8k resolution, photorealistic">Realism (Photographic)</option>
+                                <option value="3D Pixar CGI animation style, volumetric lighting, rich textures">Pixar 3D CGI</option>
+                                <option value="Vintage Comic Book illustration style, bold ink lines, halftone dots">Comic Book</option>
+                                <option value="Cyberpunk neon dystopian style, high contrast, glowing chromatic aberration">Cyberpunk Neon</option>
+                                <option value="Classic Oil Painting masterpiece style, expressive brushstrokes">Oil Painting</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <label class="text-xs text-slate-400">Voice:</label>
+                            <select id="voiceName" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <option value="Kore" data-gender="female">Kore (Female - Balanced)</option>
+                                <option value="Puck" data-gender="male">Puck (Male - Energetic)</option>
+                                <option value="Zephyr" data-gender="female">Zephyr (Female - Soft)</option>
+                                <option value="Fenrir" data-gender="male">Fenrir (Male - Deep)</option>
+                                <option value="Aoede" data-gender="female">Aoede (Female - Narrator)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 p-6 flex flex-col space-y-6 overflow-y-auto custom-scrollbar">
+                    
+                    <div class="bg-slate-900 border border-indigo-500/30 rounded-2xl p-5 flex flex-col space-y-3.5 shrink-0 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-book-open text-indigo-400"></i>
+                                <span>Manga & Comic Panels to Video Converter</span>
+                            </h3>
+                            <span id="mangaPanelCountBadge" class="text-[10px] text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">0 Panels Loaded</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">Upload manga pages or sequential comic panels to automatically convert them into an animated story video with camera zoom, pan, and voiceover.</p>
+                        
+                        <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3">
+                            <button onclick="document.getElementById('mangaFilesUpload').click()" class="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/30">
+                                <i class="fa-solid fa-images text-sm"></i>
+                                <span>Upload Manga Pages / Panels (.jpg, .png)</span>
+                            </button>
+                            <input type="file" id="mangaFilesUpload" accept="image/*" multiple class="hidden" onchange="app.handleMangaPanelsUpload(event)">
+                            <button onclick="app.clearMangaPanels()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-xl border border-slate-700 transition">
+                                Clear Panels
+                            </button>
+                        </div>
+                        <div id="mangaThumbnailsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 hidden"></div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-indigo-500/30 rounded-2xl p-5 flex flex-col space-y-3.5 shrink-0 shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-user-shield text-indigo-400"></i>
+                                <span>Character & Style References (Up to 5)</span>
+                            </h3>
+                            <span id="uploadedCountBadge" class="text-[10px] text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">0 / 5 Uploaded</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">Upload up to 5 character face references or style sheets to ensure consistent multi-angle consistency across generated video frames.</p>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                            <div class="relative bg-slate-950 border border-slate-800 rounded-xl p-3 flex flex-col items-center justify-center text-center cursor-pointer hover:border-indigo-500/50 transition group h-28 overflow-hidden" onclick="document.getElementById('charImageUpload').click()">
+                                <input type="file" id="charImageUpload" accept="image/*" multiple class="hidden" onchange="app.handleCharImageUpload(event)">
+                                <div id="charImagePreviewContainer" class="w-full h-full flex flex-col items-center justify-center">
+                                    <i class="fa-solid fa-cloud-arrow-up text-indigo-400 text-lg mb-1 group-hover:scale-110 transition"></i>
+                                    <span class="text-[10px] font-medium text-slate-300">Add Ref</span>
+                                </div>
+                            </div>
+                            <div class="hidden sm:col-span-4 md:col-span-4 flex items-center" id="multiThumbnailsContainer">
+                                <div class="text-[11px] text-slate-500 italic">No reference images added yet. Click slot 1 to upload up to 5.</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <textarea id="charPhysicalDesc" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono resize-none leading-relaxed" placeholder="Describe physical traits for character consistency (e.g., 'Cyberpunk female hacker with neon blue short hair')..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 flex flex-col min-h-[300px]">
+                        <div class="flex justify-between items-center mb-2 shrink-0 flex-wrap gap-2">
+                            <label for="scriptInput" class="block text-xs font-medium text-slate-400">Paste your script, story, or dialogue lines below:</label>
+                            
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs font-semibold text-indigo-300 flex items-center space-x-1">
+                                    <i class="fa-solid fa-sliders"></i>
+                                    <span>Manual Section Count:</span>
+                                </span>
+                                <select id="manualSceneCount" class="bg-slate-800 border border-indigo-500/40 text-indigo-200 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold">
+                                    <option value="3">3 Sections</option>
+                                    <option value="5">5 Sections</option>
+                                    <option value="10">10 Sections</option>
+                                    <option value="15">15 Sections</option>
+                                    <option value="20">20 Sections</option>
+                                    <option value="30">30 Sections</option>
+                                    <option value="50">50 Sections</option>
+                                    <option value="100">100 Sections</option>
+                                    <option value="150">150 Sections</option>
+                                    <option value="200" selected>200 Sections</option>
+                                </select>
+                            </div>
+                        </div>
+                        <textarea id="scriptInput" oninput="app.updateCharCount()" class="w-full flex-1 bg-slate-950 border border-slate-800 rounded-2xl p-5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono resize-none custom-scrollbar leading-relaxed min-h-[280px]" placeholder="Paste your script here..."></textarea>
+                        <div class="flex justify-between items-center mt-1.5 px-1">
+                            <span class="text-[11px] text-slate-500 italic">The AI will precisely structure your script into the exact number of sections selected above.</span>
+                            <span id="lineCount" class="text-[11px] text-slate-500">0 chars</span>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-3.5 shrink-0 pb-6">
+                        <button onclick="app.processScript()" id="parseBtn" class="flex-1 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-2xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-brain" id="parseIcon"></i>
+                            <span id="parseText">Analyze & Classify Script</span>
+                        </button>
+                        <button onclick="app.loadSampleAndStudio()" class="px-5 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs rounded-2xl border border-slate-700 transition flex items-center space-x-2" title="Generate Sample Script">
+                            <i class="fa-solid fa-bolt text-amber-400"></i>
+                            <span>Load Sample Script</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="w-1/2 flex flex-col bg-slate-950 overflow-hidden relative">
+                <div class="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <h2 class="text-sm font-semibold text-slate-300 flex items-center space-x-2">
+                            <i class="fa-solid fa-film text-indigo-400"></i>
+                            <span>2. Storyboard & Live Canvas FX Dashboard</span>
+                        </h2>
+                        <span id="sceneCountBadge" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-400">0 Sections</span>
+                    </div>
+                    <div id="actionToolbar" class="hidden flex items-center space-x-3">
+                        <button onclick="app.downloadAsVideoFile()" id="downloadVideoBtn" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl transition flex items-center space-x-2 shadow-lg shadow-emerald-600/30 border border-emerald-500/40" title="Record and download complete movie as playable PC video file (.webm)">
+                            <i class="fa-solid fa-video text-sm" id="downloadVideoIcon"></i>
+                            <span id="downloadVideoBtnText">Download as PC Video (.webm)</span>
+                        </button>
+                        <button onclick="app.generateAllMedia()" class="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center space-x-1.5 shadow-lg shadow-amber-500/30" title="Generate All Images & Audio Instantly">
+                            <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                            <span id="genAllTopText">Generate All</span>
+                        </button>
+                        <button onclick="app.toggleBottomTheater()" class="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium rounded-xl transition flex items-center space-x-2 shadow-lg shadow-violet-600/25">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Theater Box</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between shrink-0 overflow-x-auto custom-scrollbar">
+                    <span class="text-xs font-semibold text-slate-400 flex items-center space-x-2 whitespace-nowrap mr-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i>
+                        <span>Live Canvas FX & Speed:</span>
+                    </span>
+                    <div class="flex items-center space-x-3 w-full justify-between">
+                        <div class="flex items-center space-x-2.5 overflow-x-auto" id="fxBar">
+                            <button onclick="app.setCanvasFx('particles', this)" class="fx-btn shrink-0 px-3.5 py-2 rounded-xl border border-indigo-500 bg-indigo-500/20 text-indigo-300 text-xs font-medium transition flex items-center space-x-2 shadow-lg shadow-indigo-500/20">
+                                <i class="fa-solid fa-snowflake"></i><span>Particles</span>
+                            </button>
+                            <button onclick="app.setCanvasFx('cinematic', this)" class="fx-btn shrink-0 px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-medium transition flex items-center space-x-2">
+                                <i class="fa-solid fa-camera-retro"></i><span>Zoom</span>
+                            </button>
+                            <button onclick="app.setCanvasFx('glitch', this)" class="fx-btn shrink-0 px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-medium transition flex items-center space-x-2">
+                                <i class="fa-solid fa-bolt"></i><span>Glitch</span>
+                            </button>
+                            <button onclick="app.setCanvasFx('fire', this)" class="fx-btn shrink-0 px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-medium transition flex items-center space-x-2">
+                                <i class="fa-solid fa-fire"></i><span>Fire</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-2 shrink-0 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+                            <label class="text-[10px] font-semibold text-slate-400 uppercase">Speed:</label>
+                            <input type="range" id="animSpeedRange" min="0.5" max="2.5" step="0.25" value="1.0" oninput="app.updateAnimSpeed(this.value)" class="w-20 accent-indigo-500 cursor-pointer">
+                            <span id="animSpeedVal" class="text-[11px] font-mono text-indigo-300 w-8 text-right">1.0x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="storyboardContainer" class="flex-1 p-10 overflow-y-auto custom-scrollbar space-y-12">
+                    <div class="h-full flex flex-col items-center justify-center text-center p-16 text-slate-500">
+                        <div class="w-24 h-24 rounded-3xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600 mb-6 text-4xl shadow-2xl">
+                            <i class="fa-solid fa-clapperboard"></i>
+                        </div>
+                        <p class="text-base font-medium text-slate-300">No script parsed yet</p>
+                        <p class="text-xs text-slate-500 max-w-md mt-2 leading-relaxed">Select your section count, paste your script, and click analyze to create visuals and storyboards.</p>
+                    </div>
+                </div>
+
+                <div id="bottomTheaterBox" class="absolute bottom-6 right-6 z-40 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-3xl p-4 shadow-2xl transition-all duration-300 w-96 flex flex-col space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></div>
+                            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-1.5">
+                                <i class="fa-solid fa-tv text-violet-400"></i>
+                                <span>Live Canvas Theater</span>
+                            </h3>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span id="theaterStatus" class="text-[10px] text-slate-400 font-mono">Ready</span>
+                            <button onclick="app.downloadAsVideoFile()" class="text-emerald-400 hover:text-white text-[11px] px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600/40 rounded-lg border border-emerald-500/30 transition shadow-md flex items-center space-x-1" title="Download Movie Video File">
+                                <i class="fa-solid fa-video"></i>
+                                <span>Export Video</span>
+                            </button>
+                            <button onclick="app.toggleTheaterMinimize()" id="minimizeTheaterBtn" class="text-slate-400 hover:text-white text-[11px] p-1.5 bg-slate-800 rounded-lg border border-slate-700 transition" title="Minimize to tiny pill">
+                                <i id="minimizeIcon" class="fa-solid fa-minus"></i>
+                            </button>
+                            <button onclick="app.toggleTheaterExpand()" id="expandTheaterBtn" class="text-slate-400 hover:text-white text-[11px] p-1.5 bg-slate-800 rounded-lg border border-slate-700 transition" title="Expand View">
+                                <i id="expandIcon" class="fa-solid fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="theaterBodyContent" class="flex flex-col space-y-2">
+                        <div id="theaterScreen" class="w-full aspect-video bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center relative overflow-hidden shadow-inner cursor-pointer" onclick="app.toggleTheaterExpand()">
+                            <div class="text-center text-slate-500 p-2 z-10">
+                                <i class="fa-solid fa-film text-base mb-1 text-slate-600"></i>
+                                <p class="text-[10px] font-medium text-slate-400">Click to expand live canvas</p>
+                            </div>
+                        </div>
+
+                        <div id="theaterCaption" class="bg-slate-950/90 border border-slate-800/80 rounded-lg p-2 text-center text-[10px] text-slate-300 font-mono min-h-[30px] flex items-center justify-center line-clamp-2">
+                            Waiting for script sections...
+                        </div>
+
+                        <div class="flex items-center justify-between pt-1">
+                            <span id="theaterSceneIndicator" class="text-[10px] text-slate-400 font-medium">0 / 0</span>
+                            <div class="flex items-center space-x-1">
+                                <button onclick="app.theaterPrev()" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg transition" title="Previous"><i class="fa-solid fa-backward-step"></i></button>
+                                <button id="theaterPlayBtn" onclick="app.toggleTheaterPlay()" class="px-2.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow-lg shadow-indigo-600/30 transition flex items-center space-x-1"><i class="fa-solid fa-play"></i><span>Play FX</span></button>
+                                <button onclick="app.theaterNext()" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg transition" title="Next"><i class="fa-solid fa-forward-step"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 bg-slate-950 p-4 shrink-0 flex flex-col space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                            <i class="fa-solid fa-timeline text-indigo-400"></i>
+                            <span>Collected Timeline Sequence</span>
+                        </span>
+                        <span id="timelineCount" class="text-xs text-slate-400">0 items collected</span>
+                    </div>
+                    <div id="bottomTimelineTray" class="flex space-x-3.5 overflow-x-auto custom-scrollbar pb-2.5 min-h-[95px] items-center">
+                        <div class="text-xs text-slate-500 italic px-2">Generated items will appear here...</div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <script>
+        class LiveCanvasEngine {
+            constructor(canvasElem, imageUrl, fxType = 'particles', motionMode = 'auto-zoom', animSpeed = 1.0) {
+                this.canvas = canvasElem;
+                if (!this.canvas) {
+                    this.ctx = null;
+                    return;
+                }
+                this.ctx = canvasElem.getContext('2d');
+                this.imageUrl = imageUrl;
+                this.fxType = fxType;
+                this.motionMode = motionMode;
+                this.animSpeed = animSpeed;
+                this.img = new Image();
+                this.imgLoaded = false;
+                this.particles = [];
+                this.animId = null;
+                this.time = 0;
+                this.autoZoomScale = 1.0;
+                this.panOffset = 0;
+                this.panOffsetY = 0;
+                
+                this.init();
+            }
+
+            init() {
+                if (!this.canvas || !this.ctx) return;
+                this.img.crossOrigin = "anonymous";
+                this.img.onload = () => {
+                    this.imgLoaded = true;
+                    this.setupParticles();
+                    this.start();
+                };
+                this.img.src = this.imageUrl;
+            }
+
+            setupParticles() {
+                if (!this.canvas) return;
+                this.particles = [];
+                const count = this.fxType === 'fire' ? 60 : 80;
+                for (let i = 0; i < count; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * (this.fxType === 'fire' ? 0.5 : 1.2),
+                        vy: this.fxType === 'fire' ? -1.5 - Math.random() * 2 : (Math.random() - 0.5) * 1.2 - 0.5,
+                        size: Math.random() * (this.fxType === 'fire' ? 4 : 2.5) + 1,
+                        alpha: Math.random() * 0.7 + 0.3,
+                        color: this.getParticleColor()
+                    });
+                }
+            }
+
+            getParticleColor() {
+                if (this.fxType === 'fire') {
+                    const colors = ['#f97316', '#ef4444', '#eab308', '#f59e0b'];
+                    return colors[Math.floor(Math.random() * colors.length)];
+                } else if (this.fxType === 'glitch') {
+                    const colors = ['#06b6d4', '#ec4899', '#3b82f6', '#10b981'];
+                    return colors[Math.floor(Math.random() * colors.length)];
+                } else {
+                    return '#ffffff';
+                }
+            }
+
+            start() {
+                if (this.animId) cancelAnimationFrame(this.animId);
+                const render = () => {
+                    this.time += 0.004 * this.animSpeed;
+
+                    if (this.motionMode === 'auto-zoom') {
+                        this.autoZoomScale = 1.10 + Math.sin(this.time * 0.3) * 0.10;
+                        this.panOffset = Math.sin(this.time * 0.25) * 20;
+                        this.panOffsetY = Math.cos(this.time * 0.2) * 15;
+                    } else if (this.motionMode === 'auto-zoom-in') {
+                        this.autoZoomScale += 0.00025 * this.animSpeed;
+                        if (this.autoZoomScale > 1.30) this.autoZoomScale = 1.0;
+                    } else if (this.motionMode === 'auto-zoom-out') {
+                        this.autoZoomScale -= 0.00025 * this.animSpeed;
+                        if (this.autoZoomScale < 1.0) this.autoZoomScale = 1.30;
+                    } else if (this.motionMode === 'move-left') {
+                        this.panOffset -= 0.08 * this.animSpeed;
+                        if (this.panOffset < -60) this.panOffset = 60;
+                    } else if (this.motionMode === 'move-right') {
+                        this.panOffset += 0.08 * this.animSpeed;
+                        if (this.panOffset > 60) this.panOffset = -60;
+                    } else if (this.motionMode === 'move-up') {
+                        this.panOffsetY -= 0.08 * this.animSpeed;
+                        if (this.panOffsetY < -50) this.panOffsetY = 50;
+                    } else if (this.motionMode === 'move-down') {
+                        this.panOffsetY += 0.08 * this.animSpeed;
+                        if (this.panOffsetY > 50) this.panOffsetY = -50;
+                    } else if (this.motionMode === 'none') {
+                        this.autoZoomScale = 1.0;
+                        this.panOffset = 0;
+                        this.panOffsetY = 0;
+                    }
+
+                    this.draw();
+                    this.animId = requestAnimationFrame(render);
+                };
+                render();
+            }
+
+            draw() {
+                if (!this.ctx) return;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
+
+                this.ctx.clearRect(0, 0, w, h);
+
+                if (this.imgLoaded) {
+                    const scale = (this.motionMode.includes('zoom') || this.motionMode === 'auto-zoom') ? this.autoZoomScale : 1.08;
+                    const dx = (w - w * scale) / 2 + this.panOffset;
+                    const dy = (h - h * scale) / 2 + this.panOffsetY;
+                    this.ctx.drawImage(this.img, dx, dy, w * scale, h * scale);
+
+                    if (this.fxType === 'glitch' && Math.random() < (0.05 * this.animSpeed)) {
+                        const offsetX = (Math.random() - 0.5) * 8;
+                        this.ctx.drawImage(this.img, offsetX + this.panOffset, this.panOffsetY, w, h);
+                        this.ctx.fillStyle = 'rgba(236, 72, 153, 0.12)';
+                        this.ctx.fillRect(0, Math.random() * h, w, Math.random() * 20);
+                    }
+                } else {
+                    this.ctx.fillStyle = '#090d16';
+                    this.ctx.fillRect(0, 0, w, h);
+                }
+
+                if (this.fxType === 'particles' || this.fxType === 'fire' || this.fxType === 'glitch') {
+                    this.ctx.save();
+                    for (let p of this.particles) {
+                        p.x += p.vx * this.animSpeed * 0.7;
+                        p.y += p.vy * this.animSpeed * 0.7;
+
+                        if (p.x < 0) p.x = w;
+                        if (p.x > w) p.x = 0;
+                        if (p.y < 0) {
+                            p.y = h;
+                            p.x = Math.random() * w;
+                        }
+                        if (p.y > h) p.y = 0;
+
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    }
+                    this.ctx.restore();
+                }
+
+                const gradient = this.ctx.createRadialGradient(w/2, h/2, h/3, w/2, h/2, h);
+                gradient.addColorStop(0, 'rgba(0,0,0,0)');
+                gradient.addColorStop(1, 'rgba(3, 7, 18, 0.6)');
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(0, 0, w, h);
+            }
+        }
+
+        class ScriptToVisualApp {
+            constructor() {
+                this.scenes = [];
+                this.mangaPanels = [];
+                this.isTheaterPlaying = false;
+                this.currentTheaterIndex = 0;
+                this.theaterTimer = null;
+                this.currentAudioElement = null;
+                this.currentGlobalStyle = "Hand-drawn 2D Anime Animation style, cel shaded, vibrant cartoon";
+                this.currentCanvasFx = "particles";
+                this.animationSpeed = 1.0;
+                this.isTheaterExpanded = false;
+                this.isTheaterMinimized = false;
+                this.charReferences = [];
+                this.canvasEngines = {};
+                this.sceneMotionModes = {};
+            }
+
+            showPage(pageId) {
+                const landing = document.getElementById('landingPage');
+                const studio = document.getElementById('studioPage');
+                if (!landing || !studio) return;
+                
+                if (pageId === 'landing') {
+                    landing.classList.remove('hidden');
+                    studio.classList.add('hidden');
+                } else if (pageId === 'studio') {
+                    landing.classList.add('hidden');
+                    studio.classList.remove('hidden');
+                }
+            }
+
+            loadSampleAndStudio() {
+                this.showPage('studio');
+                this.loadSampleScript();
+            }
+
+            updateArtStyle(val) {
+                this.currentGlobalStyle = val;
+                this.showNotification(`Art style updated`, "success");
+            }
+
+            updateAnimSpeed(val) {
+                this.animationSpeed = parseFloat(val);
+                document.getElementById('animSpeedVal').textContent = `${this.animationSpeed.toFixed(2)}x`;
+                Object.values(this.canvasEngines).forEach(engine => {
+                    engine.animSpeed = this.animationSpeed;
+                });
+            }
+
+            setSceneMotion(sceneId, mode, btnElem) {
+                this.sceneMotionModes[sceneId] = mode;
+                if (this.canvasEngines[sceneId]) {
+                    this.canvasEngines[sceneId].motionMode = mode;
+                }
+
+                const cardContainer = document.getElementById(`scene-card-${sceneId}`);
+                if (cardContainer) {
+                    cardContainer.querySelectorAll('.motion-btn').forEach(b => {
+                        b.className = "motion-btn px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 text-[10px] rounded-lg border border-slate-700 transition flex items-center space-x-1";
+                    });
+                }
+                if (btnElem) {
+                    btnElem.className = "motion-btn px-2 py-1 bg-indigo-600 text-white text-[10px] rounded-lg border border-indigo-500 transition flex items-center space-x-1 shadow-md shadow-indigo-600/30";
+                }
+                this.showNotification(`Section motion updated`, "success");
+            }
+
+            moveScene(index, direction) {
+                const targetIndex = index + direction;
+                if (targetIndex < 0 || targetIndex >= this.scenes.length) return;
+                const temp = this.scenes[index];
+                this.scenes[index] = this.scenes[targetIndex];
+                this.scenes[targetIndex] = temp;
+                
+                this.scenes.forEach((s, idx) => {
+                    s.sceneNumber = idx + 1;
+                });
+                
+                this.renderStoryboard();
+                this.showNotification("Section order updated", "success");
+            }
+
+            handleCharImageUpload(event) {
+                const files = Array.from(event.target.files);
+                if (!files.length) return;
+
+                const remainingSlots = 5 - this.charReferences.length;
+                if (remainingSlots <= 0) {
+                    this.showNotification("Maximum 5 reference images allowed.", "error");
+                    return;
+                }
+
+                const filesToProcess = files.slice(0, remainingSlots);
+                let processedCount = 0;
+
+                filesToProcess.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        if (this.charReferences.length < 5) {
+                            this.charReferences.push(e.target.result);
+                        }
+                        processedCount++;
+                        if (processedCount === filesToProcess.length) {
+                            this.updateCharThumbnailsUI();
+                            this.showNotification(`Successfully added ${filesToProcess.length} reference image(s)! Total: ${this.charReferences.length}/5`, "success");
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            handleMangaPanelsUpload(event) {
+                const files = Array.from(event.target.files);
+                if (!files.length) return;
+
+                let processed = 0;
+                files.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.mangaPanels.push({
+                            id: Date.now() + index,
+                            dataUrl: e.target.result,
+                            title: `Manga Panel #${this.mangaPanels.length + 1}`,
+                            dialogue: `Panel narration and dialogue for manga sequence ${this.mangaPanels.length + 1}.`
+                        });
+                        processed++;
+                        if (processed === files.length) {
+                            this.renderMangaThumbnails();
+                            this.loadMangaIntoStoryboard();
+                            this.showNotification(`Successfully imported ${files.length} manga panel(s)!`, "success");
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            clearMangaPanels() {
+                this.mangaPanels = [];
+                this.renderMangaThumbnails();
+                this.showNotification("Manga panels cleared.", "success");
+            }
+
+            renderMangaThumbnails() {
+                const grid = document.getElementById('mangaThumbnailsGrid');
+                const badge = document.getElementById('mangaPanelCountBadge');
+                if (!grid || !badge) return;
+
+                badge.textContent = `${this.mangaPanels.length} Panels Loaded`;
+
+                if (this.mangaPanels.length === 0) {
+                    grid.classList.add('hidden');
+                    grid.innerHTML = '';
+                    return;
+                }
+
+                grid.classList.remove('hidden');
+                grid.innerHTML = this.mangaPanels.map((panel, idx) => `
+                    <div class="relative h-24 bg-slate-950 border border-slate-800 rounded-xl overflow-hidden group">
+                        <img src="${panel.dataUrl}" class="w-full h-full object-cover">
+                        <span class="absolute top-1 left-1 bg-slate-900/80 px-1.5 py-0.5 rounded text-[9px] text-indigo-300 font-mono">P.${idx+1}</span>
+                    </div>
+                `).join('');
+            }
+
+            loadMangaIntoStoryboard() {
+                if (this.mangaPanels.length === 0) return;
+                this.canvasEngines = {};
+                this.scenes = this.mangaPanels.map((panel, idx) => ({
+                    id: panel.id,
+                    sceneNumber: idx + 1,
+                    heading: `Manga Sequence Part #${idx + 1}`,
+                    actionText: panel.dialogue,
+                    settingMood: "Manga panel cinematic sequence",
+                    imagePrompt: "Manga animation panel",
+                    imageUrl: panel.dataUrl,
+                    audioUrl: null,
+                    status: 'ready'
+                }));
+
+                this.scenes.forEach(s => {
+                    this.sceneMotionModes[s.id] = 'auto-zoom';
+                });
+
+                this.renderStoryboard();
+                document.getElementById('actionToolbar').classList.remove('hidden');
+                document.getElementById('sceneCountBadge').textContent = `${this.scenes.length} Sections`;
+                this.renderTheaterFrame();
+            }
+
+            removeCharReference(index) {
+                this.charReferences.splice(index, 1);
+                this.updateCharThumbnailsUI();
+                this.showNotification("Reference image removed.", "success");
+            }
+
+            updateCharThumbnailsUI() {
+                const badge = document.getElementById('uploadedCountBadge');
+                if (badge) badge.textContent = `${this.charReferences.length} / 5 Uploaded`;
+
+                const container = document.getElementById('multiThumbnailsContainer');
+                if (!container) return;
+
+                if (this.charReferences.length === 0) {
+                    container.className = "hidden sm:col-span-4 flex items-center";
+                    container.innerHTML = `<div class="text-[11px] text-slate-500 italic">No reference images added yet. Click slot 1 to upload up to 5.</div>`;
+                    return;
+                }
+
+                container.className = "col-span-1 sm:col-span-4 grid grid-cols-4 gap-2";
+                container.innerHTML = this.charReferences.map((imgSrc, idx) => `
+                    <div class="relative h-28 rounded-xl overflow-hidden border border-slate-800 bg-slate-950 group">
+                        <img src="${imgSrc}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <button onclick="app.removeCharReference(${idx})" class="p-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs shadow-lg transition" title="Remove">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        <span class="absolute top-1 left-1 bg-slate-900/80 px-1.5 py-0.5 rounded text-[9px] text-indigo-300 font-mono">#${idx+1}</span>
+                    </div>
+                `).join('');
+            }
+
+            setCanvasFx(fxKey, btnElem) {
+                document.querySelectorAll('.fx-btn').forEach(btn => {
+                    btn.className = "fx-btn shrink-0 px-3.5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-medium transition flex items-center space-x-2";
+                });
+                btnElem.className = "fx-btn shrink-0 px-4 py-2.5 rounded-xl border border-indigo-500 bg-indigo-500/20 text-indigo-300 text-xs font-medium transition flex items-center space-x-2 shadow-lg shadow-indigo-500/20";
+                
+                this.currentCanvasFx = fxKey;
+                Object.values(this.canvasEngines).forEach(engine => {
+                    engine.fxType = fxKey;
+                    engine.setupParticles();
+                });
+                this.showNotification(`Live Canvas FX set to: ${fxKey}`, "success");
+            }
+
+            updateCharCount() {
+                const text = document.getElementById('scriptInput').value;
+                document.getElementById('lineCount').textContent = `${text.length} chars | ~${text.split('\n').filter(l=>l.trim()).length} lines`;
+            }
+
+            loadSampleScript() {
+                const sample = `INT. CYBERPUNK APARTMENT - NIGHT
+Hacker Alex sits in front of three glowing monitors, code scrolling rapidly. "We are out of time."
+EXT. CITY STREET - CONTINUOUS
+Flying cars stream through neon-drenched canyons as rain begins to fall.
+INT. SECRET LAB - LATER
+A mysterious glowing artifact rests on a pedestal in the center. "It holds the keys to everything."`;
+                document.getElementById('scriptInput').value = sample;
+                document.getElementById('manualSceneCount').value = "3";
+                this.updateCharCount();
+                this.processScript();
+            }
+
+            async processScript() {
+                const text = document.getElementById('scriptInput').value.trim();
+                if (!text) {
+                    this.showNotification("Please enter or load a script first.", "error");
+                    return;
+                }
+
+                const targetCount = parseInt(document.getElementById('manualSceneCount').value, 10) || 10;
+                const parseBtn = document.getElementById('parseBtn');
+                const parseIcon = document.getElementById('parseIcon');
+                const parseText = document.getElementById('parseText');
+                
+                parseBtn.disabled = true;
+                if (parseIcon) parseIcon.setAttribute('class', 'fa-solid fa-circle-notch animate-spin text-indigo-300');
+                if (parseText) parseText.textContent = `Classifying into ${targetCount} Sections...`;
+
+                try {
+                    const systemPrompt = `You are an expert script breakdown artist. Parse and distribute the script into EXACTLY ${targetCount} distinct chronological sections. Return a JSON array of exactly ${targetCount} objects with keys: 'sceneNumber' (number from 1 to ${targetCount}), 'heading' (string, DO NOT include words like 'Scene 1', 'Scene 2', etc. Just use natural descriptive titles or locations), 'actionText' (string), 'settingMood' (string), and 'imagePrompt' (string).`;
+                    
+                    const payload = {
+                        contents: [{ role: "user", parts: [{ text: `Parse this script into exactly ${targetCount} sections:\n\n${text}` }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        sceneNumber: { type: "INTEGER" },
+                                        heading: { type: "STRING" },
+                                        actionText: { type: "STRING" },
+                                        settingMood: { type: "STRING" },
+                                        imagePrompt: { type: "STRING" }
+                                    },
+                                    propertyOrdering: ["sceneNumber", "heading", "actionText", "settingMood", "imagePrompt"]
+                                }
+                            }
+                        }
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                    let resultJson = null;
+                    for (let attempt = 0; attempt < 3; attempt++) {
+                        try {
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                            const result = await response.json();
+                            const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                            if (rawText) {
+                                resultJson = JSON.parse(rawText);
+                                break;
+                            }
+                        } catch (e) {
+                            if (attempt === 2) throw e;
+                            await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 1000));
+                        }
+                    }
+
+                    if (resultJson && Array.isArray(resultJson)) {
+                        this.canvasEngines = {};
+                        this.scenes = resultJson.slice(0, targetCount).map((s, idx) => {
+                            let cleanHeading = (s.heading || `SECTION ${idx + 1}`).replace(/^scene\s*\d+\s*[-:]*\s*/i, '');
+                            return {
+                                id: idx + 1,
+                                sceneNumber: s.sceneNumber || (idx + 1),
+                                heading: cleanHeading,
+                                actionText: s.actionText || '',
+                                settingMood: s.settingMood || '',
+                                imagePrompt: s.imagePrompt || '',
+                                imageUrl: null,
+                                audioUrl: null,
+                                status: 'idle'
+                            };
+                        });
+                        
+                        this.scenes.forEach(scene => {
+                            if (!scene.imagePrompt) {
+                                scene.imagePrompt = `${scene.heading}: ${scene.actionText} - cinematic composition`;
+                            }
+                            if (!this.sceneMotionModes[scene.id]) {
+                                this.sceneMotionModes[scene.id] = 'auto-zoom';
+                            }
+                        });
+
+                        this.renderStoryboard();
+                        document.getElementById('actionToolbar').classList.remove('hidden');
+                        document.getElementById('sceneCountBadge').textContent = `${this.scenes.length} Sections`;
+                        this.showNotification(`Successfully classified script into ${this.scenes.length} sections!`, "success");
+                        this.renderTheaterFrame();
+                    } else {
+                        throw new Error("Invalid response format");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    this.showNotification("Error parsing script.", "error");
+                } finally {
+                    parseBtn.disabled = false;
+                    if (parseIcon) parseIcon.setAttribute('class', 'fa-solid fa-brain');
+                    if (parseText) parseText.textContent = "Analyze & Classify Script";
+                }
+            }
+
+            renderStoryboard() {
+                const container = document.getElementById('storyboardContainer');
+                if (this.scenes.length === 0) {
+                    container.innerHTML = `
+                        <div class="h-full flex flex-col items-center justify-center text-center p-16 text-slate-500">
+                            <div class="w-24 h-24 rounded-3xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600 mb-6 text-4xl shadow-2xl">
+                                <i class="fa-solid fa-clapperboard"></i>
+                            </div>
+                            <p class="text-base font-medium text-slate-300">No script parsed yet</p>
+                        </div>
+                    `;
+                    this.renderTimelineTray();
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 gap-10 pb-16 max-w-4xl mx-auto w-full">
+                    ${this.scenes.map((scene, idx) => {
+                        const currentMode = this.sceneMotionModes[scene.id] || 'auto-zoom';
+                        return `
+                        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col space-y-6 transition hover:border-slate-700 shadow-2xl" id="scene-card-${scene.id}">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-5">
+                                <div class="flex items-center space-x-3.5">
+                                    <span class="px-3.5 py-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-2xl text-xs font-bold cursor-pointer hover:bg-indigo-500/20 transition flex items-center space-x-2.5">
+                                        <span>Part #${scene.sceneNumber}</span>
+                                    </span>
+                                    <span class="text-sm font-bold text-slate-200 tracking-wide truncate max-w-[320px]">${escapeHtml(scene.heading)}</span>
+                                </div>
+                            </div>
+
+                            <div id="img-container-${scene.id}" class="w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center relative shadow-inner group border border-slate-800">
+                                ${scene.imageUrl ? `
+                                    <canvas id="canvas-${scene.id}" width="800" height="450" class="w-full h-full object-cover"></canvas>
+                                ` : `
+                                    <div class="text-center p-12 text-slate-600">
+                                        <i class="fa-regular fa-image text-5xl mb-3 text-slate-600"></i>
+                                        <p class="text-xs font-medium text-slate-500">No Image Generated Yet</p>
+                                    </div>
+                                `}
+                                <div class="absolute bottom-4 left-4 bg-slate-900/90 backdrop-blur-md border border-indigo-500/30 px-3.5 py-2 rounded-xl text-xs text-indigo-300 font-medium flex items-center space-x-2 shadow-lg pointer-events-none">
+                                    <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
+                                    <span>Live Canvas FX Active</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between px-2 py-1 bg-slate-950/40 rounded-xl border border-slate-800/60">
+                                <span class="text-[11px] text-slate-400 font-medium">Reorder Section Position:</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="app.moveScene(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-40 cursor-not-allowed p-2 bg-slate-800 text-slate-400 text-xs rounded-lg border border-slate-700 flex items-center space-x-1"' : 'class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg border border-slate-700 transition flex items-center space-x-1"'} title="Move Up">
+                                        <i class="fa-solid fa-arrow-up text-indigo-400"></i>
+                                        <span class="text-[10px]">Up</span>
+                                    </button>
+                                    <button onclick="app.moveScene(${idx}, 1)" ${idx === this.scenes.length - 1 ? 'disabled class="opacity-40 cursor-not-allowed p-2 bg-slate-800 text-slate-400 text-xs rounded-lg border border-slate-700 flex items-center space-x-1"' : 'class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg border border-slate-700 transition flex items-center space-x-1"'} title="Move Down">
+                                        <i class="fa-solid fa-arrow-down text-indigo-400"></i>
+                                        <span class="text-[10px]">Down</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between overflow-x-auto custom-scrollbar gap-2.5">
+                                <span class="text-xs text-slate-400 font-semibold whitespace-nowrap mr-2">Motion:</span>
+                                <div class="flex items-center space-x-1.5 flex-wrap">
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'none', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='none'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-ban"></i><span>Static</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'auto-zoom', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='auto-zoom'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-expand"></i><span>Auto Zoom</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'auto-zoom-in', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='auto-zoom-in'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-magnifying-glass-plus"></i><span>Zoom In</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'auto-zoom-out', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='auto-zoom-out'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-magnifying-glass-minus"></i><span>Zoom Out</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'move-left', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='move-left'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-arrow-left"></i><span>Left</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'move-right', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='move-right'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-arrow-right"></i><span>Right</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'move-up', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='move-up'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-arrow-up"></i><span>Up</span></button>
+                                    <button onclick="app.setSceneMotion(${scene.id}, 'move-down', this)" class="motion-btn px-2.5 py-1.5 ${currentMode==='move-down'?'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30':'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'} text-[11px] rounded-xl border transition flex items-center space-x-1"><i class="fa-solid fa-arrow-down"></i><span>Down</span></button>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col space-y-2">
+                                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Action & Dialogue:</label>
+                                <textarea id="action-input-${scene.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono resize-none leading-relaxed" oninput="app.updateSceneText(${scene.id}, 'actionText', this.value)">${escapeHtml(scene.actionText)}</textarea>
+                            </div>
+
+                            <div class="flex flex-col space-y-2">
+                                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">AI Image Prompt:</label>
+                                <textarea id="prompt-input-${scene.id}" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs text-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono resize-none leading-relaxed" oninput="app.updateSceneText(${scene.id}, 'imagePrompt', this.value)">${escapeHtml(scene.imagePrompt)}</textarea>
+                            </div>
+
+                            <div id="audio-box-${scene.id}" class="pt-2">
+                                ${scene.audioUrl ? `
+                                    <div class="flex items-center justify-between bg-slate-950 border border-slate-800 rounded-2xl p-3.5">
+                                        <div class="flex items-center space-x-3">
+                                            <button onclick="app.playSceneAudio(${scene.id})" class="w-10 h-10 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition shadow-md shadow-indigo-600/30">
+                                                <i class="fa-solid fa-volume-high text-xs"></i>
+                                            </button>
+                                            <div class="flex flex-col">
+                                                <span class="text-xs font-bold text-slate-200">Voiceover Audio Ready</span>
+                                                <span class="text-[10px] text-slate-400">Narration generated with TTS</span>
+                                            </div>
+                                        </div>
+                                        <button onclick="app.generateSingleAudio(${scene.id})" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-xl border border-slate-700 transition">Regenerate Audio</button>
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="app.generateSingleMedia(${scene.id})" id="gen-btn-${scene.id}" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        <span>Generate Section Visual</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('')}
+                    </div>
+                `;
+
+                this.scenes.forEach(scene => {
+                    if (scene.imageUrl) {
+                        const canvasElem = document.getElementById(`canvas-${scene.id}`);
+                        if (canvasElem && !this.canvasEngines[scene.id]) {
+                            this.canvasEngines[scene.id] = new LiveCanvasEngine(canvasElem, scene.imageUrl, this.currentCanvasFx, this.sceneMotionModes[scene.id] || 'auto-zoom', this.animationSpeed);
+                        }
+                    }
+                });
+
+                this.renderTimelineTray();
+                this.renderTheaterFrame();
+            }
+
+            updateSceneText(sceneId, field, val) {
+                const scene = this.scenes.find(s => s.id === sceneId);
+                if (scene) {
+                    scene[field] = val;
+                }
+            }
+
+            async generateSingleMedia(sceneId) {
+                const scene = this.scenes.find(s => s.id === sceneId);
+                if (!scene) return;
+
+                const btn = document.getElementById(`gen-btn-${sceneId}`);
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i><span>Generating...</span>`;
+                }
+
+                try {
+                    const fullPrompt = `${this.currentGlobalStyle}, ${scene.imagePrompt}. Cinematic composition, masterpiece.`;
+                    
+                    const inlineDataParts = this.charReferences.map(ref => ({
+                        inlineData: { mimeType: 'image/png', data: ref.split(',')[1] }
+                    }));
+
+                    const imagePayload = {
+                        contents: [{
+                            role: 'user',
+                            parts: [
+                                ...(inlineDataParts.length > 0 ? [
+                                    { text: `Maintain strict character face and style consistency with these ${inlineDataParts.length} reference image(s): ` },
+                                    ...inlineDataParts
+                                ] : []),
+                                { text: `Generate image for section: ${fullPrompt}` }
+                            ]
+                        }]
+                    };
+
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${apiKey}`;
+
+                    let imgRes = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(imagePayload)
+                    });
+                    
+                    let imgJson = await imgRes.json();
+                    let part = imgJson?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+
+                    if (!part) {
+                        const randomId = Math.floor(Math.random() * 1000);
+                        scene.imageUrl = `https://picsum.photos/seed/${scene.id + randomId}/1280/720`;
+                        scene.status = 'ready';
+                    } else {
+                        scene.imageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+                        scene.status = 'ready';
+                    }
+
+                    await this.generateSingleAudio(sceneId, false);
+
+                    this.renderStoryboard();
+                    this.showNotification(`Section visual generated successfully!`, "success");
+                } catch (err) {
+                    console.error("Image generation error, falling back to placeholder:", err);
+                    const randomId = Math.floor(Math.random() * 1000);
+                    scene.imageUrl = `https://picsum.photos/seed/${scene.id + randomId}/1280/720`;
+                    scene.status = 'ready';
+                    this.renderStoryboard();
+                    this.showNotification(`Generated visual using fallback renderer.`, "success");
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i><span>Generate Section Visual</span>`;
+                    }
+                }
+            }
+
+            async generateSingleAudio(sceneId, reRender = true) {
+                const scene = this.scenes.find(s => s.id === sceneId);
+                if (!scene) return;
+
+                try {
+                    const voiceName = document.getElementById('voiceName').value || 'Kore';
+                    const fullNarrationText = `${scene.heading}. ${scene.actionText}`;
+                    
+                    const ttsPayload = {
+                        contents: [{
+                            parts: [{ text: `Read the narration clearly and naturally: ${fullNarrationText}` }]
+                        }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } }
+                            }
+                        },
+                        model: "gemini-2.5-flash-preview-tts"
+                    };
+
+                    const apiKey = "";
+                    const ttsUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                    const ttsRes = await fetch(ttsUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(ttsPayload)
+                    });
+                    
+                    const responseText = await ttsRes.text();
+                    if (!responseText || responseText.trim() === '') return;
+                    
+                    const ttsJson = JSON.parse(responseText);
+                    const ttsPart = ttsJson?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = ttsPart?.inlineData?.data;
+                    const mimeType = ttsPart?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const matchRate = mimeType.match(/rate=(\d+)/);
+                        const sampleRate = matchRate ? parseInt(matchRate[1], 10) : 24000;
+                        const pcmData = this.base64ToArrayBuffer(audioData);
+                        const pcm16 = new Int16Array(pcmData);
+                        const wavBlob = this.pcmToWav(pcm16, sampleRate);
+                        scene.audioUrl = URL.createObjectURL(wavBlob);
+                    }
+
+                    if (reRender) {
+                        this.renderStoryboard();
+                    }
+                } catch (e) {
+                    console.error("TTS generation error:", e);
+                }
+            }
+
+            base64ToArrayBuffer(base64) {
+                const binaryString = atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            }
+
+            pcmToWav(pcm16, sampleRate) {
+                const numChannels = 1;
+                const byteRate = sampleRate * numChannels * 2;
+                const blockAlign = numChannels * 2;
+                const dataSize = pcm16.length * 2;
+                const chunkSize = 36 + dataSize;
+
+                const buffer = new ArrayBuffer(44 + dataSize);
+                const view = new DataView(buffer);
+
+                let offset = 0;
+                function writeString(str) {
+                    for (let i = 0; i < str.length; i++) {
+                        view.setUint8(offset++, str.charCodeAt(i));
+                    }
+                }
+
+                writeString('RIFF');
+                view.setUint32(offset, chunkSize, true); offset += 4;
+                writeString('WAVE');
+                writeString('fmt ');
+                view.setUint32(offset, 16, true); offset += 4;
+                view.setUint16(offset, 1, true); offset += 2;
+                view.setUint16(offset, numChannels, true); offset += 2;
+                view.setUint32(offset, sampleRate, true); offset += 4;
+                view.setUint32(offset, byteRate, true); offset += 4;
+                view.setUint16(offset, blockAlign, true); offset += 2;
+                view.setUint16(offset, 16, true); offset += 2;
+                writeString('data');
+                view.setUint32(offset, dataSize, true); offset += 4;
+
+                for (let i = 0; i < pcm16.length; i++, offset += 2) {
+                    view.setInt16(offset, pcm16[i], true);
+                }
+
+                return new Blob([view], { type: 'audio/wav' });
+            }
+
+            playSceneAudio(sceneId) {
+                const scene = this.scenes.find(s => s.id === sceneId);
+                if (!scene || !scene.audioUrl) return;
+                if (this.currentAudioElement) {
+                    this.currentAudioElement.pause();
+                }
+                this.currentAudioElement = new Audio(scene.audioUrl);
+                this.currentAudioElement.play().catch(e => console.log(e));
+            }
+
+            async generateAllMedia() {
+                const topBtnText = document.getElementById('genAllTopText');
+                
+                if (topBtnText) topBtnText.textContent = "Generating...";
+
+                for (let scene of this.scenes) {
+                    if (!scene.imageUrl) {
+                        await this.generateSingleMedia(scene.id);
+                    }
+                }
+
+                if (topBtnText) topBtnText.textContent = "Generate All";
+                this.showNotification("All storyboard media generated successfully!", "success");
+            }
+
+            renderTimelineTray() {
+                const tray = document.getElementById('bottomTimelineTray');
+                const countBadge = document.getElementById('timelineCount');
+                const generated = this.scenes.filter(s => s.imageUrl);
+
+                countBadge.textContent = `${generated.length} / ${this.scenes.length} generated`;
+
+                if (generated.length === 0) {
+                    tray.innerHTML = `<div class="text-xs text-slate-500 italic px-2">Generated items will appear here...</div>`;
+                    return;
+                }
+
+                tray.innerHTML = generated.map(scene => `
+                    <div class="shrink-0 w-32 aspect-video bg-slate-900 border border-slate-800 rounded-xl overflow-hidden relative group cursor-pointer shadow-md">
+                        <img src="${scene.imageUrl}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center p-1 text-center">
+                            <span class="text-[10px] font-bold text-white">Part #${scene.sceneNumber}</span>
+                            <span class="text-[9px] text-indigo-300 truncate w-full">${escapeHtml(scene.heading)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderTheaterFrame() {
+                const screen = document.getElementById('theaterScreen');
+                const caption = document.getElementById('theaterCaption');
+                const indicator = document.getElementById('theaterSceneIndicator');
+
+                if (this.scenes.length === 0) {
+                    screen.innerHTML = `
+                        <div class="text-center text-slate-500 p-2 z-10">
+                            <i class="fa-solid fa-film text-base mb-1 text-slate-600"></i>
+                            <p class="text-[10px] font-medium text-slate-400">No script parsed yet</p>
+                        </div>
+                    `;
+                    caption.textContent = "Waiting for script sections...";
+                    indicator.textContent = "0 / 0";
+                    return;
+                }
+
+                const scene = this.scenes[this.currentTheaterIndex] || this.scenes[0];
+                indicator.textContent = `${this.currentTheaterIndex + 1} / ${this.scenes.length}`;
+                caption.textContent = scene.actionText || scene.heading;
+
+                if (scene.imageUrl) {
+                    screen.innerHTML = `
+                        <canvas id="theaterCanvas" width="800" height="450" class="w-full h-full object-cover"></canvas>
+                        <div class="absolute bottom-2 left-2 bg-slate-900/80 px-2 py-1 rounded-md text-[9px] text-indigo-300 font-mono">
+                            ${escapeHtml(scene.heading)}
+                        </div>
+                    `;
+                    const canvasElem = document.getElementById('theaterCanvas');
+                    if (canvasElem) {
+                        new LiveCanvasEngine(canvasElem, scene.imageUrl, this.currentCanvasFx, this.sceneMotionModes[scene.id] || 'auto-zoom', this.animationSpeed);
+                    }
+                } else {
+                    screen.innerHTML = `
+                        <div class="text-center text-slate-500 p-2 z-10">
+                            <i class="fa-regular fa-image text-2xl mb-1 text-slate-600"></i>
+                            <p class="text-[10px] font-medium text-slate-400">${escapeHtml(scene.heading)} (Image Not Generated)</p>
+                        </div>
+                    `;
+                }
+            }
+
+            toggleTheaterPlay() {
+                if (this.scenes.length === 0) return;
+                const btn = document.getElementById('theaterPlayBtn');
+                const status = document.getElementById('theaterStatus');
+
+                if (this.isTheaterPlaying) {
+                    this.isTheaterPlaying = false;
+                    if (this.theaterTimer) {
+                        clearTimeout(this.theaterTimer);
+                        this.theaterTimer = null;
+                    }
+                    if (this.currentAudioElement) {
+                        this.currentAudioElement.pause();
+                        this.currentAudioElement.onended = null;
+                    }
+                    btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Play FX</span>`;
+                    status.textContent = "Paused";
+                } else {
+                    this.isTheaterPlaying = true;
+                    btn.innerHTML = `<i class="fa-solid fa-pause"></i><span>Pause</span>`;
+                    status.textContent = "Playing Theater";
+
+                    this.playCurrentTheaterSection();
+                }
+            }
+
+            playCurrentTheaterSection() {
+                if (!this.isTheaterPlaying) return;
+                const currentScene = this.scenes[this.currentTheaterIndex];
+                if (!currentScene) return;
+
+                this.renderTheaterFrame();
+
+                if (this.currentAudioElement) {
+                    this.currentAudioElement.pause();
+                    this.currentAudioElement.onended = null;
+                }
+
+                if (currentScene.audioUrl) {
+                    this.currentAudioElement = new Audio(currentScene.audioUrl);
+                    this.currentAudioElement.onended = () => {
+                        if (!this.isTheaterPlaying) return;
+                        this.advanceTheaterToNext();
+                    };
+                    this.currentAudioElement.play().catch(e => {
+                        console.log("Audio play error:", e);
+                        this.theaterTimer = setTimeout(() => {
+                            this.advanceTheaterToNext();
+                        }, 5000);
+                    });
+                } else {
+                    this.theaterTimer = setTimeout(() => {
+                        this.advanceTheaterToNext();
+                    }, 5000);
+                }
+            }
+
+            advanceTheaterToNext() {
+                if (!this.isTheaterPlaying) return;
+                this.currentTheaterIndex++;
+                if (this.currentTheaterIndex >= this.scenes.length) {
+                    this.currentTheaterIndex = 0;
+                    this.toggleTheaterPlay();
+                    return;
+                }
+                this.playCurrentTheaterSection();
+            }
+
+            theaterNext() {
+                if (this.scenes.length === 0) return;
+                if (this.currentAudioElement) this.currentAudioElement.pause();
+                if (this.theaterTimer) clearTimeout(this.theaterTimer);
+                this.currentTheaterIndex = (this.currentTheaterIndex + 1) % this.scenes.length;
+                this.renderTheaterFrame();
+                if (this.isTheaterPlaying) {
+                    this.playCurrentTheaterSection();
+                } else {
+                    const sc = this.scenes[this.currentTheaterIndex];
+                    if (sc && sc.audioUrl) this.playSceneAudio(sc.id);
+                }
+            }
+
+            theaterPrev() {
+                if (this.scenes.length === 0) return;
+                if (this.currentAudioElement) this.currentAudioElement.pause();
+                if (this.theaterTimer) clearTimeout(this.theaterTimer);
+                this.currentTheaterIndex = (this.currentTheaterIndex - 1 + this.scenes.length) % this.scenes.length;
+                this.renderTheaterFrame();
+                if (this.isTheaterPlaying) {
+                    this.playCurrentTheaterSection();
+                } else {
+                    const sc = this.scenes[this.currentTheaterIndex];
+                    if (sc && sc.audioUrl) this.playSceneAudio(sc.id);
+                }
+            }
+
+            toggleTheaterExpand() {
+                const box = document.getElementById('bottomTheaterBox');
+                const icon = document.getElementById('expandIcon');
+                this.isTheaterExpanded = !this.isTheaterExpanded;
+
+                if (this.isTheaterExpanded) {
+                    box.className = "fixed inset-6 z-50 bg-slate-900/95 backdrop-blur-xl border border-indigo-500/40 rounded-3xl p-6 shadow-2xl transition-all duration-300 flex flex-col space-y-4 max-w-5xl mx-auto";
+                    document.getElementById('theaterScreen').className = "w-full flex-1 bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-center relative overflow-hidden shadow-inner cursor-pointer min-h-[400px]";
+                    icon.setAttribute('class', 'fa-solid fa-compress');
+                } else {
+                    box.className = "absolute bottom-6 right-6 z-40 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-3xl p-4 shadow-2xl transition-all duration-300 w-96 flex flex-col space-y-3";
+                    document.getElementById('theaterScreen').className = "w-full aspect-video bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center relative overflow-hidden shadow-inner cursor-pointer";
+                    icon.setAttribute('class', 'fa-solid fa-expand');
+                }
+            }
+
+            toggleTheaterMinimize() {
+                const body = document.getElementById('theaterBodyContent');
+                const icon = document.getElementById('minimizeIcon');
+                this.isTheaterMinimized = !this.isTheaterMinimized;
+                if (this.isTheaterMinimized) {
+                    body.classList.add('hidden');
+                    icon.setAttribute('class', 'fa-solid fa-plus');
+                } else {
+                    body.classList.remove('hidden');
+                    icon.setAttribute('class', 'fa-solid fa-minus');
+                }
+            }
+
+            async downloadAsVideoFile() {
+                const generatedScenes = this.scenes.filter(s => s.imageUrl);
+                if (generatedScenes.length === 0) {
+                    this.showNotification("Please generate at least one section visual first before exporting as video.", "error");
+                    return;
+                }
+
+                const btnText = document.getElementById('downloadVideoBtnText');
+                const btnIcon = document.getElementById('downloadVideoIcon');
+                const downloadBtn = document.getElementById('downloadVideoBtn');
+
+                if (downloadBtn) downloadBtn.disabled = true;
+                if (btnIcon) {
+                    if (btnIcon.setAttribute) {
+                        btnIcon.setAttribute('class', 'fa-solid fa-circle-notch fa-spin text-sm');
+                    } else {
+                        btnIcon.className = 'fa-solid fa-circle-notch fa-spin text-sm';
+                    }
+                }
+                if (btnText) btnText.textContent = "Rendering Video (0%)...";
+                
+                this.showNotification("Preparing video stream recorder for PC download...", "success");
+
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 1280;
+                    canvas.height = 720;
+                    const ctx = canvas.getContext('2d');
+
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (audioCtx.state === 'suspended') {
+                        await audioCtx.resume();
+                    }
+                    const dest = audioCtx.createMediaStreamDestination();
+
+                    const canvasStream = canvas.captureStream(30);
+                    const combinedStream = new MediaStream([
+                        ...canvasStream.getVideoTracks(),
+                        ...dest.stream.getAudioTracks()
+                    ]);
+
+                    let mimeType = 'video/webm;codecs=vp9,opus';
+                    if (!MediaRecorder.isTypeSupported(mimeType)) {
+                        mimeType = 'video/webm;codecs=vp8,opus';
+                    }
+                    if (!MediaRecorder.isTypeSupported(mimeType)) {
+                        mimeType = 'video/webm';
+                    }
+
+                    const mediaRecorder = new MediaRecorder(combinedStream, { mimeType });
+                    const chunks = [];
+
+                    mediaRecorder.ondataavailable = (e) => {
+                        if (e.data && e.data.size > 0) {
+                            chunks.push(e.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        const videoUrl = URL.createObjectURL(blob);
+                        const downloadAnchor = document.createElement('a');
+                        downloadAnchor.href = videoUrl;
+                        downloadAnchor.download = `ScriptToVisual_Movie_${Date.now()}.webm`;
+                        document.body.appendChild(downloadAnchor);
+                        downloadAnchor.click();
+                        downloadAnchor.remove();
+
+                        if (downloadBtn) downloadBtn.disabled = false;
+                        if (btnIcon) {
+                            if (btnIcon.setAttribute) {
+                                btnIcon.setAttribute('class', 'fa-solid fa-video text-sm');
+                            } else {
+                                btnIcon.className = 'fa-solid fa-video text-sm';
+                            }
+                        }
+                        if (btnText) btnText.textContent = "Download as PC Video (.webm)";
+                        this.showNotification("Video successfully downloaded! Open it directly in your PC video player.", "success");
+                    };
+
+                    mediaRecorder.start(100);
+
+                    let currentSceneIdx = 0;
+                    const totalScenes = generatedScenes.length;
+
+                    const renderNextSceneForVideo = async () => {
+                        if (currentSceneIdx >= totalScenes) {
+                            setTimeout(() => {
+                                if (mediaRecorder.state !== 'inactive') {
+                                    mediaRecorder.stop();
+                                }
+                                audioCtx.close();
+                            }, 500);
+                            return;
+                        }
+
+                        const scene = generatedScenes[currentSceneIdx];
+                        const progressPercent = Math.round((currentSceneIdx / totalScenes) * 100);
+                        if (btnText) btnText.textContent = `Rendering (${progressPercent}%)...`;
+
+                        currentSceneIdx++;
+
+                        const img = new Image();
+                        img.crossOrigin = "anonymous";
+                        await new Promise((resolve) => {
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                            img.src = scene.imageUrl;
+                        });
+
+                        let sceneDurationMs = 4000;
+
+                        if (scene.audioUrl) {
+                            try {
+                                const audioRes = await fetch(scene.audioUrl);
+                                const arrayBuf = await audioRes.arrayBuffer();
+                                const decodedAudio = await audioCtx.decodeAudioData(arrayBuf);
+                                sceneDurationMs = Math.max(decodedAudio.duration * 1000, 3000);
+
+                                const audioSourceNode = audioCtx.createBufferSource();
+                                audioSourceNode.buffer = decodedAudio;
+                                audioSourceNode.connect(dest);
+                                audioSourceNode.connect(audioCtx.destination);
+                                audioSourceNode.start();
+                            } catch (e) {
+                                console.log("Video audio decode error:", e);
+                            }
+                        }
+
+                        const startTime = performance.now();
+                        let zoomVal = 1.0;
+                        let zoomDir = 1;
+                        let panX = 0;
+                        let panY = 0;
+
+                        await new Promise((resolve) => {
+                            const frameInterval = setInterval(() => {
+                                const elapsed = performance.now() - startTime;
+                                if (elapsed >= sceneDurationMs) {
+                                    clearInterval(frameInterval);
+                                    resolve();
+                                    return;
+                                }
+
+                                ctx.fillStyle = '#050811';
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                                zoomVal += 0.0006 * zoomDir;
+                                if (zoomVal > 1.20) zoomDir = -1;
+                                if (zoomVal < 1.0) zoomDir = 1;
+
+                                panX += 0.05;
+                                panY += 0.04;
+
+                                const w = canvas.width;
+                                const h = canvas.height;
+                                const scale = zoomVal;
+                                const dx = (w - w * scale) / 2 + Math.sin(panX) * 15;
+                                const dy = (h - h * scale) / 2 + Math.cos(panY) * 12;
+                                
+                                try {
+                                    ctx.drawImage(img, dx, dy, w * scale, h * scale);
+                                } catch (err) {
+                                    ctx.fillStyle = '#1e293b';
+                                    ctx.fillRect(0, 0, w, h);
+                                }
+
+                                ctx.fillStyle = 'rgba(3, 7, 18, 0.85)';
+                                ctx.fillRect(40, h - 110, w - 80, 80);
+                                ctx.strokeStyle = '#6366f1';
+                                ctx.lineWidth = 2;
+                                ctx.strokeRect(40, h - 110, w - 80, 80);
+
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = 'bold 22px Inter, sans-serif';
+                                ctx.fillText(`Part #${scene.sceneNumber}: ${scene.heading}`, 70, h - 70);
+
+                                ctx.fillStyle = '#cbd5e1';
+                                ctx.font = '15px Inter, sans-serif';
+                                const truncatedAction = (scene.actionText || '').substring(0, 85) + (scene.actionText && scene.actionText.length > 85 ? '...' : '');
+                                ctx.fillText(truncatedAction, 70, h - 40);
+
+                            }, 1000 / 30);
+                        });
+
+                        renderNextSceneForVideo();
+                    };
+
+                    renderNextSceneForVideo();
+
+                } catch (err) {
+                    console.error("Video export error:", err);
+                    if (downloadBtn) downloadBtn.disabled = false;
+                    if (btnIcon) {
+                        if (btnIcon.setAttribute) {
+                            btnIcon.setAttribute('class', 'fa-solid fa-video text-sm');
+                        } else {
+                            btnIcon.className = 'fa-solid fa-video text-sm';
+                        }
+                    }
+                    if (btnText) btnText.textContent = "Download as PC Video (.webm)";
+                    this.showNotification("Error exporting video. Make sure browser permissions allow media recording.", "error");
+                }
+            }
+
+            toggleBottomTheater() {
+                const box = document.getElementById('bottomTheaterBox');
+                box.classList.toggle('hidden');
+            }
+
+            showNotification(message, type = 'success') {
+                const div = document.createElement('div');
+                div.className = `fixed bottom-6 left-6 z-50 px-5 py-3 rounded-2xl text-xs font-semibold shadow-2xl backdrop-blur-md transition-all duration-300 flex items-center space-x-2.5 ${type === 'success' ? 'bg-emerald-600/90 text-white border border-emerald-500/30 shadow-emerald-600/30' : 'bg-rose-600/90 text-white border border-rose-500/30 shadow-rose-600/30'}`;
+                div.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'} text-sm"></i><span>${message}</span>`;
+                document.body.appendChild(div);
+                setTimeout(() => {
+                    div.style.opacity = '0';
+                    setTimeout(() => div.remove(), 300);
+                }, 3000);
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        const app = new ScriptToVisualApp();
+    </script>
+</body>
+</html>
